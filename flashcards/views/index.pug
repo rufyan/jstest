@@ -1,0 +1,9 @@
+extends template.pug
+block title 
+    title flashy
+block content
+    section#content
+        h2= prompt
+        if hint
+            p
+                i Hint: #{hint}
