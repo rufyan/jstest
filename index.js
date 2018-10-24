@@ -14,7 +14,6 @@ const options ={
     //path : "/v1/store",
     path : "/v1/profile/pc/rufyan",
     method: "GET",
-    //ciphers: 'DES-CBC3-SHA',
     headers: {
         'TRN-Api-Key': '49245f9b-ddb4-49a9-9d42-716165ef1bae'
     },
@@ -23,28 +22,67 @@ const options ={
       requestCert: true,
       agent: false
 };
-        let body = "";
+
+    let body = "";
 	let profile;
-var requestfn = https.get(options, (res) =>{
-    if(res.statusCode === 200){
-        res.on('data', data => {
-            body += data.toString();
-        });
-        res.on('end', data => {
-            try{
-                profile = JSON.parse(body);
-                console.log(profile.accountId);
-            }catch(error){
-            }
-        });
-    }
-});
+// var requestfn = https.get(options, (res) =>{
+//     if(res.statusCode === 200){
+//         res.on('data', data => {
+//             body += data.toString();
+//         });
+//         res.on('end', data => {
+//             try{
+//                 profile = JSON.parse(body);
+//             }catch(error){
+//             }
+//         });
+//     }
+// });
 
 app.get('/', (req, res) => {
     res.render('index',  {
         epicUserHandle: profile.epicUserHandle,
         accountId : profile.accountId,
         top25: profile.stats.p2.top25.valueInt
+     });
+});
+
+const getInfo = async () => {
+    options.path = '/v1/store';
+
+    let storedata;
+    var storeitems = [];
+    var requestfn = await https.get(options, (res) =>{
+        if(res.statusCode === 200){
+            res.on('data', data => {
+                body += data.toString();
+            });
+            res.on('end', data => {
+                try{
+                    storedata = JSON.parse(body);
+                    console.log('from getinfo',storedata);
+                    return storedata;
+                }catch(error){
+                }
+            });
+        }
+    });
+   }
+   
+   getInfo();
+
+app.get('/store', (req, res) => {
+ 
+  const storeapi = getInfo();
+
+    console.log(storeapi); //its async
+    //  storedata.forEach(element => {
+    //      console.log(element)
+    //  });
+    res.render('store',  {
+        // epicUserHandle: profile.epicUserHandle,
+        // accountId : profile.accountId,
+        // top25: profile.stats.p2.top25.valueInt
      });
 });
 
