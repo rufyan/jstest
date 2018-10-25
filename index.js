@@ -47,7 +47,37 @@ app.get('/', (req, res) => {
      });
 });
 
-// const getInfo = async (props) => {
+function getInfo (props) {
+    let storedata;
+    let body = '';
+    var storeitems = [];
+    var requestfn = https.get(options, (res) =>{
+        if(res.statusCode === 200){
+            res.on('data', data => {
+                body += data.toString();
+            });
+            res.on('end', data => {
+                console.log('on end ');
+             
+                try{
+                    storedata = JSON.parse(body.toString());
+                    //console.log(storedata);
+                    console.log('from getinfo ',storedata.accountId);
+                   // return storedata;
+                }catch(error){
+                    handleError(error);
+                }
+            });
+        }else{
+            handleError(res.statusCode);
+        }
+    });
+    return requestfn;
+   }
+   
+   //getInfo();
+
+//    async function getInfo(props) {
 //     let storedata;
 //     var storeitems = [];
 //     var requestfn = await https.get(options, (res) =>{
@@ -74,46 +104,19 @@ app.get('/', (req, res) => {
 //             handleError(res.statusCode);
 //         }
 //     });
-//     //return requestfn;
+//     return requestfn;
 //    }
    
-   //getInfo();
-
-   async function getInfo(props) {
-    let storedata;
-    var storeitems = [];
-    var requestfn = await https.get(options, (res) =>{
-        if(res.statusCode === 200){
-                console.log('getinfo called',  res.statusCode);
-
-            res.on('data', data => {
-                body += data.toString();
-                console.log('on data ');
-            });
-            res.on('end', data => {
-                console.log('on end ');
-             
-                try{
-                    storedata = JSON.parse(body.toString());
-                    //console.log(storedata);
-                    console.log('from getinfo',storedata.accountId);
-                    return storedata;
-                }catch(error){
-                    handleError(error);
-                }
-            });
-        }else{
-            handleError(res.statusCode);
-        }
-    });
-    return requestfn;
-   }
-   
 app.get('/store', (req, res) => {
- console.log('before getinfo call');
- 
-  let storeapi = getInfo('/v1/store');
-    console.log('apidata ', storeapi);
+    
+    async function go() {
+        let response = await getInfo('/v1/store');
+        console.log(response);
+        return response;
+    }
+ console.log('before getinfo call ', go());
+  //let storeapi = getInfo('/v1/store');
+    //console.log('go ', go());
 
     //console.log('from get store', storeapi); //its async
     //  storedata.forEach(element => {
