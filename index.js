@@ -47,35 +47,75 @@ app.get('/', (req, res) => {
      });
 });
 
-const getInfo = async () => {
-    options.path = '/v1/store';
+// const getInfo = async (props) => {
+//     let storedata;
+//     var storeitems = [];
+//     var requestfn = await https.get(options, (res) =>{
+//         if(res.statusCode === 200){
+//                 console.log('getinfo called',  res.statusCode);
 
+//             res.on('data', data => {
+//                 body += data.toString();
+//                 console.log('on data ');
+//             });
+//             res.on('end', data => {
+//                 console.log('on end ');
+             
+//                 try{
+//                     storedata = JSON.parse(body.toString());
+//                     //console.log(storedata);
+//                     console.log('from getinfo',storedata.accountId);
+//                     return storedata;
+//                 }catch(error){
+//                     handleError(error);
+//                 }
+//             });
+//         }else{
+//             handleError(res.statusCode);
+//         }
+//     });
+//     //return requestfn;
+//    }
+   
+   //getInfo();
+
+   async function getInfo(props) {
     let storedata;
     var storeitems = [];
     var requestfn = await https.get(options, (res) =>{
         if(res.statusCode === 200){
+                console.log('getinfo called',  res.statusCode);
+
             res.on('data', data => {
                 body += data.toString();
+                console.log('on data ');
             });
             res.on('end', data => {
+                console.log('on end ');
+             
                 try{
-                    storedata = JSON.parse(body);
-                    console.log('from getinfo',storedata);
+                    storedata = JSON.parse(body.toString());
+                    //console.log(storedata);
+                    console.log('from getinfo',storedata.accountId);
                     return storedata;
                 }catch(error){
+                    handleError(error);
                 }
             });
+        }else{
+            handleError(res.statusCode);
         }
     });
+    return requestfn;
    }
    
-   getInfo();
-
 app.get('/store', (req, res) => {
+ console.log('before getinfo call');
  
-  const storeapi = getInfo();
+  let storeapi = getInfo('/v1/store');
+    console.log('apidata ', storeapi);
 
-    console.log(storeapi); //its async
+    //console.log('from get store', storeapi); //its async
     //  storedata.forEach(element => {
     //      console.log(element)
     //  });
@@ -89,3 +129,7 @@ app.get('/store', (req, res) => {
 app.listen(3000, () => {
     console.log('running')
 });
+
+function handleError(error){
+    console.log("ERROR: ", error);
+}
