@@ -12,7 +12,8 @@ const options ={
     
     hostname: 'api.fortnitetracker.com',
     //path : "/v1/store",
-    path : "/v1/profile/pc/rufyan",
+//    path : "/v1/profile/ps4/J_J_M_R_D",
+    path : "/v1/profile/xbl/zaccaxxxx",
     method: "GET",
     headers: {
         'TRN-Api-Key': '49245f9b-ddb4-49a9-9d42-716165ef1bae'
@@ -63,7 +64,7 @@ function getInfo (props) {
                     storedata = JSON.parse(body.toString());
                     //console.log(storedata);
                     console.log('from getinfo ',storedata.accountId);
-                   // return storedata;
+                    return storedata;
                 }catch(error){
                     handleError(error);
                 }
@@ -72,7 +73,7 @@ function getInfo (props) {
             handleError(res.statusCode);
         }
     });
-    return requestfn;
+    return storedata;
    }
    
    //getInfo();
@@ -107,14 +108,44 @@ function getInfo (props) {
 //     return requestfn;
 //    }
    
-app.get('/store', (req, res) => {
-    
-    async function go() {
-        let response = await getInfo('/v1/store');
-        console.log(response);
-        return response;
-    }
- console.log('before getinfo call ', go());
+app.get('/store', (req, resp) => {
+    let storedata = '';
+    var requestfn = https.get(options, (res) =>{
+        if(res.statusCode === 200){
+            res.on('data', data => {
+                body += data.toString();
+            });
+            res.on('end', data => {
+                console.log('on end ');
+             
+                try{
+                    storedata = JSON.parse(body.toString());
+                    console.log(body.toString());
+                    console.log('from getinfo ',storedata);
+                    //return storedata;
+
+                    let top25s = parseInt(storedata.stats.p10.top25.valueInt);
+                    
+                    if(top25s <= 200 ){
+                        top25stext = top25s + " Lol, that trash";
+                    }
+                    resp.render('store',  {
+                        epicUserHandle: storedata.epicUserHandle,
+                        accountId : storedata.accountId,
+                        top25: top25stext,
+                        kills: storedata.stats.p10.kills.valueInt,
+                        kd: storedata.stats.p10.kd.valueInt
+                    });
+
+                }catch(error){
+                    handleError(error);
+                }
+            });
+        }else{
+            handleError(res.statusCode);
+        }
+    });
+ 
   //let storeapi = getInfo('/v1/store');
     //console.log('go ', go());
 
@@ -122,11 +153,7 @@ app.get('/store', (req, res) => {
     //  storedata.forEach(element => {
     //      console.log(element)
     //  });
-    res.render('store',  {
-        // epicUserHandle: profile.epicUserHandle,
-        // accountId : profile.accountId,
-        // top25: profile.stats.p2.top25.valueInt
-     });
+
 });
 
 app.listen(3000, () => {
