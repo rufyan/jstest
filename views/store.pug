@@ -8,9 +8,9 @@ block content
     section#content
 
         h2 !{JSON.stringify(epicUserHandle)}
-        if accountId
-            p
-                i Hint: !{JSON.stringify(accountId)}
+        if top25.Int
         p Top 25s !{JSON.stringify(top25)}
+        p Kills !{JSON.stringify(kills)}
+        p Kill death !{JSON.stringify(kd)}
 
 
