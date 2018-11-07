@@ -23,35 +23,17 @@ const options ={
       agent: false
 };
 
-    let body = "";
-	let profile;
-// var requestfn = https.get(options, (res) =>{
-//     if(res.statusCode === 200){
-//         res.on('data', data => {
-//             body += data.toString();
-//         });
-//         res.on('end', data => {
-//             try{
-//                 profile = JSON.parse(body);
-//             }catch(error){
-//             }
-//         });
-//     }
-// });
+let body = "";
+let profile;
 
 app.get('/', (req, res) => {
-    res.render('index',  {
-        epicUserHandle: profile.epicUserHandle,
-        accountId : profile.accountId,
-        top25: profile.stats.p2.top25.valueInt
-     });
+        res.render('index',  {
+    });
 });
 
-function getInfo (props) {
-    let storedata;
-    let body = '';
-    var storeitems = [];
+app.get('/store', (req, res) => {
     var requestfn = https.get(options, (res) =>{
+        //let storedata;
         if(res.statusCode === 200){
             res.on('data', data => {
                 body += data.toString();
@@ -60,10 +42,11 @@ function getInfo (props) {
                 console.log('on end ');
              
                 try{
-                    storedata = JSON.parse(body.toString());
+                    const storedata =  JSON.parse(body.toString());
                     //console.log(storedata);
+                    usedata(storedata);
                     console.log('from getinfo ',storedata.accountId);
-                   // return storedata;
+                    return storedata;
                 }catch(error){
                     handleError(error);
                 }
@@ -72,62 +55,59 @@ function getInfo (props) {
             handleError(res.statusCode);
         }
     });
-    return requestfn;
-   }
-   
-   //getInfo();
 
-//    async function getInfo(props) {
-//     let storedata;
-//     var storeitems = [];
-//     var requestfn = await https.get(options, (res) =>{
-//         if(res.statusCode === 200){
-//                 console.log('getinfo called',  res.statusCode);
+    function usedata(data){
+        console.log('from usedata ',data);
 
-//             res.on('data', data => {
-//                 body += data.toString();
-//                 console.log('on data ');
-//             });
-//             res.on('end', data => {
-//                 console.log('on end ');
-             
-//                 try{
-//                     storedata = JSON.parse(body.toString());
-//                     //console.log(storedata);
-//                     console.log('from getinfo',storedata.accountId);
-//                     return storedata;
-//                 }catch(error){
-//                     handleError(error);
-//                 }
-//             });
-//         }else{
-//             handleError(res.statusCode);
-//         }
-//     });
-//     return requestfn;
-//    }
-   
-app.get('/store', (req, res) => {
-    
-    async function go() {
-        let response = await getInfo('/v1/store');
-        console.log(response);
-        return response;
     }
- console.log('before getinfo call ', go());
-  //let storeapi = getInfo('/v1/store');
-    //console.log('go ', go());
+
+//     async function go() {
+//         let response = await getInfo('/v1/store');
+//         console.log('from go ',response);
+//         return response;
+//     }
+//     go().then(x=> console.log('x ', x));
+//  console.log('before getinfo call ', go());
 
     //console.log('from get store', storeapi); //its async
     //  storedata.forEach(element => {
     //      console.log(element)
     //  });
     res.render('store',  {
-        // epicUserHandle: profile.epicUserHandle,
-        // accountId : profile.accountId,
-        // top25: profile.stats.p2.top25.valueInt
+
      });
 });
+
+async function getInfo (props) {
+    let body = '';
+    var storeitems = [];
+    var requestfn = await https.get(options, (res) =>{
+        //let storedata;
+        if(res.statusCode === 200){
+            res.on('data', data => {
+                body += data.toString();
+            });
+            res.on('end', data => {
+                console.log('on end ');
+             
+                try{
+                    const storedata = async () => { await JSON.parse(body.toString())};
+                    //console.log(storedata);
+                    console.log('from getinfo ',storedata.accountId);
+                    return storedata;
+                }catch(error){
+                    handleError(error);
+                }
+            });
+        }else{
+            handleError(res.statusCode);
+        }
+    });
+    //return storedata;
+   }
+   
+   
+
 
 app.listen(3000, () => {
     console.log('running')
