@@ -1,0 +1,69 @@
+{
+    "rarities" : {
+        "0" : {
+            "name" : "Low",
+            "colour" : "grey"
+        },
+        "1" : {
+            "name" : "medium-low",
+            "colour" : "green"
+        },
+        "2" : {
+            "name" : "medium",
+            "colour" : "blue"
+        },
+        "3" : {
+            "name" : "medium-high",
+            "colour" : "purple"
+        },
+        "4" : {
+            "name" : "high",
+            "colour" : "gold"
+        }
+    },
+    "weapons" : {
+        "pistol" : {
+            "name" : "Pistol",
+            "rarity" : "0",
+            "ammoType" : "light",
+            "discoverability" : {
+                "floor" : "high",
+                "chest" : "high",
+                "lama" : "high",
+                "supplyDrop" : "low"
+            },
+            "bloomSize" : "large",
+            "shot" : {
+                "reloadTime" : 0.5,
+                "firingStyle" : "auto",
+                "shotInterval" : 0.7
+            },
+            "damage" : {
+                "head" : 20,
+                "body" : 15
+            }
+        },
+
+        "heavySniper" :{
+            "name" : "Heavy Sniper",
+            "rarity" : "2",
+            "ammoType" : "heavy",
+            "discoverability" : {
+                "floor" : "medium",
+                "chest" : "medium",
+                "lama" : "medium",
+                "supplyDrop" : "medium"
+            },
+            "bloomSize" : "large",
+            "shot" : {
+                "reloadTime" : 1.5,
+                "firingStyle" : "single",
+                "shotInterval" : 0
+            },
+            "damage" : {
+                "head" : 192,
+                "body" : 88
+            }
+        }
+    }
+}

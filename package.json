@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "create-react-app": "^2.1.1",
     "express": "^4.16.4",
     "node-dom": "^0.1.0",
     "pug": "^2.0.3"

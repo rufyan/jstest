@@ -155,6 +155,10 @@ app.get('/store', (req, resp) => {
     //  });
 
 });
+app.get('/weapons', (req, resp) => {
+    const jsonData = require('./weapons.json'); 
+    resp.render('weapons',  jsonData);
+});
 
 app.listen(3000, () => {
     console.log('running')
