@@ -21,11 +21,12 @@
             "colour" : "gold"
         }
     },
-    "weapons" : {
-        "pistol" : {
+    "weapons" : [
+        {
             "name" : "Pistol",
-            "rarity" : "0",
+            "rarity" : 0,
             "ammoType" : "light",
+            "updated" : "2018-11-08",
             "discoverability" : {
                 "floor" : "high",
                 "chest" : "high",
@@ -44,7 +45,7 @@
             }
         },
 
-        "heavySniper" :{
+        {
             "name" : "Heavy Sniper",
             "rarity" : "2",
             "ammoType" : "heavy",
@@ -65,5 +66,5 @@
                 "body" : 88
             }
         }
-    }
+    ]
 }

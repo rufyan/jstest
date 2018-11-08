@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.set('view engine', 'pug');
+app.use(express.static('public'));
 
 
 const options ={
@@ -107,7 +108,6 @@ function getInfo (props) {
 //     });
 //     return requestfn;
 //    }
-   
 app.get('/store', (req, resp) => {
     let storedata = '';
     var requestfn = https.get(options, (res) =>{

@@ -6,8 +6,32 @@ block title
 
 block content
     section#content
-        ul 
+        table.weapons
+            thead
+                tr
+                    th
+                    th
+                    th(colspan=4) Discoverable
+                    th(colspan=2) Damage
+                tr
+                    th
+                    th Rarity
+                    th Floor
+                    th Chest
+                    th Lama
+                    th Supply drop
+                    th Head
+                    th Body
+            tbody  
             each val in weapons
-                li= val.pistol.name
+                tr
+                    td= val.name
+                    td !{rarities[val.rarity].name}
+                    td(class= val.discoverability.floor) !{val.discoverability.floor}
+                    td !{val.discoverability.chest}
+                    td !{val.discoverability.lama}
+                    td !{val.discoverability.supplyDrop}
+                    td !{val.damage.head}
+                    td !{val.damage.body}
 
 
