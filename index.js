@@ -108,7 +108,13 @@ function getInfo (props) {
 //     });
 //     return requestfn;
 //    }
-app.get('/store', (req, resp) => {
+
+app.get('/p/:tagId', function(req, res) {
+    res.send("tagId is set to " + req.params.tagId);
+  });
+
+app.get('/gamer/:userid', (req, resp) => {
+    console.log(req.params.userid)
     let storedata = '';
     var requestfn = https.get(options, (res) =>{
         if(res.statusCode === 200){
@@ -120,8 +126,8 @@ app.get('/store', (req, resp) => {
              
                 try{
                     storedata = JSON.parse(body.toString());
-                    console.log(body.toString());
-                    console.log('from getinfo ',storedata);
+                   // console.log(body.toString());
+                    //console.log('from getinfo ',storedata);
                     //return storedata;
 
                     let top25s = parseInt(storedata.stats.p10.top25.valueInt);
@@ -129,7 +135,7 @@ app.get('/store', (req, resp) => {
                     if(top25s <= 200 ){
                         top25stext = top25s + " Lol, that trash";
                     }
-                    resp.render('store',  {
+                    resp.render('gamer',  {
                         epicUserHandle: storedata.epicUserHandle,
                         accountId : storedata.accountId,
                         top25: top25stext,
