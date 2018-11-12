@@ -166,6 +166,42 @@ app.get('/weapons', (req, resp) => {
     resp.render('weapons',  jsonData);
 });
 
+
+app.get('/history', (req, resp) => {
+    //const jsonData = require('./weapons.json'); 
+    //resp.render('',  jsonData);
+    options.path = "/v1/profile/account/b7b5711b-f6e3-4729-a69e-5fd925656094/matches"
+    
+
+    var requestfn = https.get(options, (res) =>{
+        if(res.statusCode === 200){
+            res.on('data', data => {
+                body += data.toString();
+            });
+            res.on('end', data => {
+                console.log('on end ');
+             
+                try{
+                    storedata = JSON.parse(body.toString());
+                   // console.log(body.toString());
+                    console.log('from getinfo ',storedata);
+                    //return storedata;
+
+
+                    resp.render('history',  {
+                    });
+
+                }catch(error){
+                    handleError(error);
+                }
+            });
+        }else{
+            handleError(res.statusCode);
+        }
+    });
+
+});
+
 app.listen(3000, () => {
     console.log('running')
 });

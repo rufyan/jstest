@@ -1,0 +1,9 @@
+extends template.pug
+block title 
+    title hello
+block content
+    h2 welcome
+    form(action='/hello', method='post')
+        label please name
+            input(type='text', name='username')
+        button(type='submit') Submit
